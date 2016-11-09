@@ -1,17 +1,28 @@
 'use strict';
 
 var gulp = require('gulp');
+var htmlmin = require('gulp-htmlmin');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
-var sass = require('gulp-sass');
 var maps = require('gulp-sourcemaps');
+
+// Image optimisation
+var imageResize = require('gulp-image-resize');
 var imagemin = require('gulp-imagemin')
 var jpeg = require('imagemin-jpegtran');
 var png = require('imagemin-pngquant');
-var imageResize = require('gulp-image-resize');
+
 var del = require('del');
+
+// html minification
+gulp.task('htmlmin', () => {
+  return gulp.src('index.html')
+    .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(gulp.dest('dist'));
+});
 
 // Concatenate, minify, copy JavaScript file to dist folder
 gulp.task('scripts', ['minify-js']);
@@ -72,8 +83,8 @@ gulp.task('clean', () => {
 });
 
 // Build task
-gulp.task('build', ['scripts', 'styles', 'images'], () => {
-  gulp.src(['index.html', 'icons/**'], { base : './' })
+gulp.task('build', ['htmlmin', 'scripts', 'styles', 'images'], () => {
+  gulp.src('icons/**', { base : './' })
     .pipe(gulp.dest('dist'));
 });
 
