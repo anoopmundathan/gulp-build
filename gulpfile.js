@@ -1,9 +1,14 @@
 'use strict';
 
 var gulp = require('gulp');
+var del = require('del');
+
 var htmlmin = require('gulp-htmlmin');
+
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var jshint = require('gulp-jshint');
+
 var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
@@ -15,9 +20,9 @@ var imagemin = require('gulp-imagemin')
 var jpeg = require('imagemin-jpegtran');
 var png = require('imagemin-pngquant');
 
-var del = require('del');
+var browserSync = require('browser-sync');
 
-// html minification
+// HTML minification
 gulp.task('htmlmin', () => {
   return gulp.src('index.html')
     .pipe(htmlmin({collapseWhitespace: true}))
@@ -77,6 +82,14 @@ gulp.task('images', () => {
 		.pipe(gulp.dest('dist/content'));
 });
 
+// Lint JavaScript
+gulp.task('lint', function() {
+  return gulp.src('js/circle/circle.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter("default"))
+    .pipe(jshint.reporter("fail"));
+});
+
 // Clean dist folder before starting build process
 gulp.task('clean', () => {
   return del(['css', 'dist']);
@@ -88,7 +101,16 @@ gulp.task('build', ['htmlmin', 'scripts', 'styles', 'images'], () => {
     .pipe(gulp.dest('dist'));
 });
 
+// watch files for changes and reload
+gulp.task('serve', function() {
+  browserSync({
+    server: {
+      baseDir: 'dist'
+    }
+  });
+});
+
 // Main task
-gulp.task('default', ['clean'], () => {
+gulp.task('default', ['clean', 'lint'], () => {
   gulp.start('build');
 });
