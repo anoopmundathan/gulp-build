@@ -7,6 +7,10 @@ var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var maps = require('gulp-sourcemaps');
+var imagemin = require('gulp-imagemin')
+var jpeg = require('imagemin-jpegtran');
+var png = require('imagemin-pngquant');
+var imageResize = require('gulp-image-resize');
 var del = require('del');
 
 // Concatenate, minify, copy JavaScript file to dist folder
@@ -48,20 +52,32 @@ gulp.task('compile-css', () => {
       .pipe(gulp.dest('dist/styles'));
 });
 
-gulp.task('images', ['compress']);
-
-gulp.task('compress', () => {
-    console.log('image compressed');
+// Optimise images
+gulp.task('images', () => {
+	return gulp.src(['images/*.*'])
+		.pipe(imageResize({
+			width:2500,
+			height:1500
+		}))
+		.pipe(imagemin({
+			progressive: true,
+			use: [jpeg(),png()]
+		}))
+		.pipe(gulp.dest('dist/content'));
 });
 
+// Clean dist folder before starting build process
 gulp.task('clean', () => {
   return del(['css', 'dist']);
 });
 
+// Build task
 gulp.task('build', ['scripts', 'styles', 'images'], () => {
-
+  gulp.src(['index.html', 'icons/**'], { base : './' })
+    .pipe(gulp.dest('dist'));
 });
 
+// Main task
 gulp.task('default', ['clean'], () => {
   gulp.start('build');
 });
