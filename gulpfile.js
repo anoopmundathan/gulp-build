@@ -102,7 +102,7 @@ gulp.task('build', ['htmlmin', 'scripts', 'styles', 'images'], () => {
 });
 
 // watch files for changes and reload
-gulp.task('serve', function() {
+gulp.task('serve', () => {
   browserSync({
     server: {
       baseDir: 'dist'
