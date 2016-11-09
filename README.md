@@ -2,6 +2,8 @@
 Treehouse - Project8 - Using Gulp to Build a Front End Website
 
 ## Getting started
+
+### Setup
 ```
 $ git clone https://github.com/anoopmundathan/gulp-build.git
 $ cd gulp-buld
