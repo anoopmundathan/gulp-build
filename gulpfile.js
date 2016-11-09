@@ -58,6 +58,7 @@ gulp.task('minify-css', ['compile-css'], () => {
     .pipe(maps.init())
     .pipe(cleanCSS())
     .pipe(maps.write())
+    .pipe(rename('all.min.css'))
     .pipe(gulp.dest('dist/styles'));
 });
 
