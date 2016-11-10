@@ -1,5 +1,6 @@
 'use strict';
 
+// Import all required modules
 var gulp = require('gulp');
 var del = require('del');
 
