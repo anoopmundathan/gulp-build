@@ -1,7 +1,7 @@
 # gulp-build
-Treehouse - Project8 - Using Gulp to Build a Front End Website
+> Treehouse - Project8 - Using Gulp to Build a Front End Website
 
-## Getting started
+## Getting Started
 
 ### Setup
 ```
