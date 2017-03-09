@@ -15,7 +15,6 @@ var rename = require('gulp-rename');
 var maps = require('gulp-sourcemaps');
 
 // Image optimisation
-var imageResize = require('gulp-image-resize');
 var imagemin = require('gulp-imagemin')
 var jpeg = require('imagemin-jpegtran');
 var png = require('imagemin-pngquant');
@@ -72,10 +71,6 @@ gulp.task('compile-css', () => {
 // Optimise images
 gulp.task('images', () => {
 	return gulp.src(['images/*.*'])
-		.pipe(imageResize({
-			width:2500,
-			height:1500
-		}))
 		.pipe(imagemin({
 			progressive: true,
 			use: [jpeg(),png()]
